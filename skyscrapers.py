@@ -74,3 +74,63 @@ def check_uniqueness_in_rows(board: list):
                 if board[i][j] == board[i][m] and j != m:
                     return False
     return True
+
+
+def check_horizontal_visibility(board: list):
+    """
+    Check row-wise visibility (left-right and vice versa)
+
+    Return True if all horizontal hints are satisfiable,
+     i.e., for line 412453* , hint is 4, and 1245 are the four buildings
+      that could be observed from the hint looking to the right.
+
+    >>> check_horizontal_visibility(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    True
+    >>> check_horizontal_visibility(['***21**', '452453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    False
+    >>> check_horizontal_visibility(['***21**', '452413*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    False
+    """
+    for i in range(1,6,1):
+        if board[i][0] != '*':
+            if left_to_right_check(board[i], int(board[i][0])) == False:
+                return False
+        if board[i][-1] != '*':
+            if left_to_right_check(board[i][::-1], int(board[i][-1])) == False:
+                return False
+    return True
+
+
+def check_columns(board: list):
+    """
+    Check column-wise compliance of the board for uniqueness (buildings of unique height) and visibility (top-bottom and vice versa).
+
+    Same as for horizontal cases, but aggregated in one function for vertical case, i.e. columns.
+
+    >>> check_columns(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    True
+    >>> check_columns(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41232*', '*2*1***'])
+    False
+    >>> check_columns(['***21**', '412553*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    False
+    """
+    for i in range(1,6,1):
+        for j in range(1,6,1):
+            for m in range(1,6,1):
+                if board[j][i] == board[m][i] and j != m:
+                    return False
+
+    for i in range(1,6,1):
+        if board[0][i] != '*':
+            summa = ''
+            for j in range(7):
+                summa += board[j][i]
+            if left_to_right_check(summa, int(board[0][i])) == False:
+                return False
+        if board[-1][i] != '*':
+            summa = ''
+            for j in range(7):
+                summa += board[j][i]
+            if left_to_right_check(summa[::-1], int(board[-1][i])) == False:
+                return False
+    return True
