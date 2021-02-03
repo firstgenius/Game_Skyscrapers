@@ -1,3 +1,10 @@
+'''
+Skyscrapers is a logic game in the placement of houses. In this game you need to place houses of
+different heights on the game board, so that the number of visible houses from a certain position
+was equal to the number
+'''
+
+
 def read_input(path: str):
     """
     Read game board file from path.
@@ -134,3 +141,28 @@ def check_columns(board: list):
             if left_to_right_check(summa[::-1], int(board[-1][i])) == False:
                 return False
     return True
+
+
+def check_skyscrapers(input_path: str):
+    """
+    Main function to check the status of skyscraper game board.
+    Return True if the board status is compliant with the rules,
+    False otherwise.
+
+    >>> check_skyscrapers("check.txt")
+    True
+    """
+    board = read_input(input_path)
+    if check_not_finished_board(board):
+        print(board)
+        print(check_horizontal_visibility(board))
+        if check_columns(board) and check_horizontal_visibility(board) and check_uniqueness_in_rows(board):
+            print(check_columns(board))
+            print(check_horizontal_visibility(board))
+            print(check_uniqueness_in_rows(board))
+            return True
+    return False
+
+
+if __name__ == "__main__":
+    print(check_skyscrapers("check.txt"))
