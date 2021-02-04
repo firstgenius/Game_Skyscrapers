@@ -154,12 +154,7 @@ def check_skyscrapers(input_path: str):
     """
     board = read_input(input_path)
     if check_not_finished_board(board):
-        print(board)
-        print(check_horizontal_visibility(board))
         if check_columns(board) and check_horizontal_visibility(board) and check_uniqueness_in_rows(board):
-            print(check_columns(board))
-            print(check_horizontal_visibility(board))
-            print(check_uniqueness_in_rows(board))
             return True
     return False
 
